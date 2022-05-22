@@ -1,0 +1,37 @@
+<!-- Product section-->
+<section class="py-5" style="min-height: 700px;">
+  <div class="col-8 offset-2 row">
+    <div class="form-group col-6 p-3">
+      <label for="name">Họ tên:</label>
+      <input type="text" id="name" [value]='customer.name' [title]='customer.name' class="form-control"
+             readonly>
+    </div>
+    <div class="form-group col-6 p-3">
+      <label for="email">Email:</label>
+      <input type="text" id="email" [value]='customer.email' [title]='customer.email' class="form-control"
+             readonly>
+    </div>
+    <!-- <div class="form-group col-6 p-3">
+        <label for="registerDate">Ngày đăng kí:</label>
+        <input type="text" id="registerDate" [value]="customer.registerDate|date:'dd-MM-yyyy'"
+            [title]="customer.registerDate|date:'dd-MM-yyyy'" class="form-control" readonly>
+    </div> -->
+    <div class="form-group col-6 p-3">
+      <label for="gender">Giới tính:</label>
+      <input type="text" id="gender" [value]="customer.gender?'Nam':'Nữ'"
+             [title]="customer.gender?'Nam':'Nữ'" class="form-control" readonly>
+    </div>
+    <div class="form-group col-6 p-3">
+      <label for="address">Địa chỉ:</label>
+      <input type="text" id="address" [value]="customer.address" [title]="customer.address"
+             class="form-control" readonly>
+    </div>
+    <div class="form-group col-6 p-3">
+      <label for="phone">Số điện thoại:</label>
+      <input type="text" id="phone" [value]="customer.phone" [title]="customer.phone" class="form-control"
+             readonly>
+    </div>
+
+  </div>
+
+</section>

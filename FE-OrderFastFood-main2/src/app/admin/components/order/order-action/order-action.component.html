@@ -1,0 +1,46 @@
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h2 class="modal-title p-0">Chi tiết đơn hàng</h2>
+    <h2>Tổng tiền: {{order.amount|currency:'VND'}}</h2>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped mt-1">
+      <thead class="bg-secondary bg-gradient fs-6" >
+      <tr>
+        <th scope="col" >STT</th>
+        <th scope="col" >Ảnh</th>
+        <th scope="col" >Sản phẩm</th>
+        <th scope="col" >Số lượng</th>
+        <th class="text-center" scope="col">Tổng tiền</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let item of orderDetails ; index as i">
+        <td class="align-middle"><b>{{i + 1}}</b></td>
+        <td class="align-middle" ><img [src]="item.product.imageUrl" class="img-fluid" style="width: 40px; cursor: pointer;" /></td>
+        <td class="align-middle" >{{item.product.name }}</td>
+        <td class="align-middle" >{{item.quantity}}</td>
+        <td class="align-middle" >{{item.quantity * item.product.unitPrice |currency:'VND'}}</td>
+        <td class="align-middle" [ngClass]="{disabled: order.status!=3}">
+
+          <!-- [ngClass]="{disabled: order.status!=3}" -->
+
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="d-flex m-2">
+      <button mat-raised-button color="primary" [ngClass]="{disabled: order.status!=1}" (click)="confirm()" class="col-2 ml-2">Xác nhận đơn</button>
+      <div style="width: 10px;"></div>
+      <button mat-raised-button color="warn" [ngClass]="{disabled: order.status!=1}" (click)="cancel()" class="col-2 ml-2">Huỷ đơn</button>
+      <div style="width: 10px;"></div>
+      <button mat-raised-button color="accent" [ngClass]="{disabled: order.status!=2}" (click)="paid()" class="col-2 ml-2">Đã Thanh Toán</button>
+    </div>
+  </div>
+</ng-template>
+
+<a class="fas fa-eye" style="cursor: pointer; color: teal;" (click)="open(content)"></a>

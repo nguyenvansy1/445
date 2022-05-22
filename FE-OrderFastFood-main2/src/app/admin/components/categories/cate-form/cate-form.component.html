@@ -1,0 +1,45 @@
+
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+      <div class="card-header">
+        <h1 class="text-center ">{{formTitle}}</h1>
+      </div>
+      <div class="card-body">
+        <form focusInvalidInput [formGroup]="addProductCategoryFormGroup" (ngSubmit)="onSubmit()">
+
+          <div class="form-group mb-3 required">
+            <label for="name" class="fs-6 mb-2 control-label">Tên</label>
+            <input id="name" #myinputFirst (keydown.shift.tab)="onShiftKey($event)" formControlName="name"
+                   class="form-control p-2 " type="text" placeholder="Tên" />
+            <div *ngIf="submitted">
+              <app-print-error [control]="name"></app-print-error>
+            </div>
+
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="fs-6 mb-2">Mô tả</label>
+            <textarea id="description" formControlName="description" class="form-control p-2" type="text" placeholder="Mô tả"></textarea>
+            <div *ngIf="submitted">
+              <app-print-error [control]="description"></app-print-error>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+            <button type="submit" class="btn btn-success">Lưu</button>
+            <div style="width: 10px;"></div>
+            <button (click)="reset($event)" class="btn mr-5 btn-danger">nhập lại</button>
+            <div style="width: 10px;"></div>
+            <button type="button" #myinputLast (keydown.Tab)="onKey($event)" (click) = "backClicked()"  class="btn mr-5 btn-primary">Quay về</button>
+          </div>
+          <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

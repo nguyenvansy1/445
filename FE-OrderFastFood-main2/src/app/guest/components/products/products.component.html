@@ -1,0 +1,126 @@
+
+<header class="" style="margin-top: 3%;">
+  <img src="assets/11.jpg" class="img-fluid">
+</header>
+
+
+<section class="py-3">
+
+  <div class="container px-4 px-lg-5 mt-5">
+
+    <div class="row mb-4">
+      <div class="col-3">
+        <mat-form-field>
+          <mat-label>Search by name</mat-label>
+          <input matInput [(ngModel)]="keywordForSearch" (keyup)=(doSearch()) type="search"/>
+        </mat-form-field>
+        <b class="bi bi-search" style="margin: auto 7px; font-size: 20px;"></b>
+      </div>
+      <div class="col-2 offset-7" >
+        <h3 class="m-0">Hiển thị</h3>
+        <select #optionIst class="form-select" (change) = "doFilter($event.target.value)">
+          <option selected value=''>Tất cả</option>
+          <option value='enteredDate'>Mới nhất</option>
+          <option value='priceDesc'>Giá giảm dần</option>
+          <option value='priceAsc'>Giá tăng dần</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+      <div class="pull-right label label-info row col" style="min-height: 500px !important;">
+        <!-- <div class="loader"></div> -->
+        <div class="spinner-border" role="status"
+             style="margin: auto; width: 6em;height: 6em; border: 0.7em solid black;">
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="products?.length===0">
+      <h1 class="text-center" style="margin-top: 25%; font-size: 50px; min-height: 500px;">Not found!</h1>
+    </div>
+
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-5 justify-content-center" >
+      <div class="col mb-3 p-2" *ngFor="let item of products ">
+        <div class="card h-100" style="box-shadow: 0 3px 2px rgba(70, 68, 68, 0.11); border-radius: 8px;">
+          <!-- Product image-->
+          <img class="card-img-top" style="width: 80%;height: 100px; margin-left: 10%; margin-top: 10%; cursor: pointer;" [src]="item.imageUrl"
+               [routerLink]="['/item-detail/'+item.id]" />
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- Product name-->
+              <a class="fw-bolder" [routerLink]="['/item-detail/'+item.id]"
+                 style="font-size: 14px; text-decoration: none; color: teal;"><div ngbTooltip="{{item.name}}" tooltip-append-to-body="true">{{ (item.name.length>25)? (item.name | slice:0:20)+'...':(item.name) }}</div></a>
+              <!-- Product reviews-->
+              <div class="d-flex justify-content-center small text-warning mb-2">
+                <ngb-rating class="mb-2" [rate]="getStar(item.id)" [starTemplate]="" [readonly]="true" [max]="5"></ngb-rating>
+                <pre><b>({{item.rates.length}})</b></pre>
+              </div>
+              <!-- Product price-->
+              <span class="text-bold">{{item.unitPrice|currency:'VND'}}</span>
+
+              <div class="card-footer p-4 pt-3 border-top-0 bg-transparent">
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="addCart(item.id, item.unitPrice)">Thêm vào giỏ</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- Product actions-->
+          <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+              <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="addCart(item.productId, item.price*(1 - item.discount/100))">Add to cart</a>
+              </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="products?.length != 0" class="footer-pagination p-2">
+
+      <div class="row">
+
+        <div class="col-md-6 mt-2">
+<!--            <span class="mr-2">-->
+<!--                Page Size-->
+<!--            </span>-->
+<!--          <select (change) = "updatePageSize($event.target.value)">-->
+<!--            <option >5</option>-->
+<!--            <option >10</option>-->
+<!--            <option selected = "true">20</option>-->
+<!--            <option >50</option>-->
+<!--          </select>-->
+
+          <mat-form-field appearance="fill">
+            <mat-label>Page Size</mat-label>
+            <select matNativeControl (change) = "updatePageSize($event.target.value)">
+              <option >5</option>
+              <option >10</option>
+              <option selected = "true">20</option>
+              <option >50</option>
+            </select>
+          </mat-form-field>
+
+        </div>
+
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-5 mt-2" style="text-align: right; color: black;">
+              Displaying {{ (thePageNumber - 1) * thePageSize + 1 }} - {{ itemPerPage }} of {{ theTotalElements }}
+            </div>
+            <div class="col-md-7">
+              <ngb-pagination [(page)] = "thePageNumber"
+                              [pageSize] = "thePageSize"
+                              [collectionSize] = "theTotalElements"
+                              (pageChange) = "listProducts()"
+                              [boundaryLinks]="true"
+                              [maxSize]="3"
+                              [rotate]="true"
+              >
+
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

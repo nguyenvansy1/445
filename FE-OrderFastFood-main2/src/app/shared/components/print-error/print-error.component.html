@@ -1,0 +1,18 @@
+<div *ngIf="control.invalid && (control.dirty || control.touched)"
+     class="p-2 alert alert-danger ">
+  <!-- <div *ngIf="control.errors.required || control.errors.notOnlyWhitespace  ">This field is require</div>
+  <div *ngIf="control.errors.minlength ">First name must be at least 2 character long</div>
+  <div *ngIf="control.errors.pattern ">Stock keeping unit must be have format includes Multiple-alphabet sequences and ends with a series of
+      numbers separated by a dash (ex : A-1 or AA-BB-11)</div>
+  <div *ngIf="control.errors.DefaultOption ">This field is require</div>
+  <div *ngIf="control.errors.min">Minimum required number is 0</div>
+  <div *ngIf="control.errors.maxlength ">Can be max 255 characters long.</div>  -->
+
+  <div *ngIf="control.errors.required || control.errors.notOnlyWhitespace  ">Không được để trống</div>
+  <div *ngIf="control.errors.minLength ">Phải có ít nhất 2 ký tự</div>
+  <div *ngIf="control.errors.pattern ">Định dạng không hợp lệ</div>
+  <div *ngIf="control.errors.DefaultOption ">Bắt buộc chọn</div>
+  <div *ngIf="control.errors.min">Giá trị phải lớn hơn không</div>
+  <div *ngIf="control.errors.maxLength ">Không được quá 255 ký tự</div>
+
+</div>

@@ -1,0 +1,135 @@
+<section class="py-5" style="min-height: 700px;">
+  <div class="container my-5"
+       style="border: 1px solid rgb(235, 235, 235); border-radius: 15px;min-height: 450px;box-shadow: 0 0 6px rgb(226, 226, 226);">
+    <div class="row">
+      <div class="col" style="padding-left: 25px;">
+        <h4><b>Giỏ hàng</b></h4>
+      </div>
+      <div class="col-2 align-self-center text-right text-muted mb-5">{{totalItem}} sản phẩm</div>
+      <div class="row text-center mt-1" *ngIf="totalItem<1">
+        <h2>Bạn chưa thêm sản phẩm nào vào giỏ hàng!</h2>
+        <h3>Hãy cùng nhau mua sắm nào!</h3>
+        <a [routerLink]="['/home-page']" style="color: tan; font-size: 40px;"><i
+          class="bi bi-house-door-fill"></i></a>
+
+        <img src="assets/empty-cart.gif" width="500px" height="700px" >
+      </div>
+
+      <div class="row text-center mt-1" *ngIf="totalItem>0">
+        <div class="row border-top p-3" style="margin-left: 0px;" *ngFor="let item of cartDetails">
+          <div class="row main align-items-center">
+            <div class="col-2">
+              <img class="img-fluid p-2" style="width: 100px; cursor: pointer;"
+                   [routerLink]="['/item-detail/'+item.product.id]" [src]="item.product.imageUrl">
+            </div>
+            <div class="col">
+              <div class="row">{{item.product.name}}</div>
+            </div>
+            <div class="col-2 text-center">
+              <input type="number" [value]="item.quantity" min="1" name="quantity"
+                     [(ngModel)]="item.quantity" (change)="update(item.id, item.quantity)"
+                     style="border: none; width: 70px; box-shadow: 0 0 2px rgb(228, 228, 228);"
+                     class="form-control text-center">
+            </div>
+            <div class="col-2 text-center">
+              {{item.product.unitPrice * item.quantity|currency:'VND'}}
+            </div>
+            <div class="col-1 text-center"><a (click)="delete(item.id)"
+                                              style="text-decoration: none; color: red; cursor: pointer;"
+                                              class="close">&#10005;</a></div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="row text-center mt-4" *ngIf="totalItem > 0">
+      <div class="row">
+        <div class="col-md-8">
+          <form focusInvalidInput [formGroup]="CheckoutFormGroup" (ngSubmit)="onSubmit()">
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="name" class="fs-6 mb-2">Tên người nhận hàng</label>
+                <input id="name" #myinputFirst (keydown.shift.tab)="onShiftKey($event)" (keyup) = "enableSubmited()"
+                       formControlName="name" class="form-control p-2" type="text" placeholder="" />
+                <div *ngIf="submitted">
+                  <app-print-error [control]="name"></app-print-error>
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <label for="address" class="fs-6 mb-2">Số điện thoại</label>
+                <input id="address" (keyup) = "enableSubmited()" formControlName="phoneNumber" class="form-control p-2" type="text" placeholder="" />
+                <div *ngIf="submitted">
+                  <app-print-error [control]="phoneNumber"></app-print-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="phoneNumber" class="fs-6 mb-2">Địa chỉ</label>
+              <input id="phoneNumber" (keyup) = "enableSubmited()" formControlName="address" class="form-control p-2" type="text" placeholder="">
+              <div *ngIf="submitted">
+                <app-print-error [control]="address"></app-print-error>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="fs-6 mb-2">Ghi chú</label>
+              <textarea id="description" (keyup) = "enableSubmited()" formControlName="description" class="form-control p-2" type="text" placeholder=""></textarea>
+              <div *ngIf="submitted">
+                <app-print-error [control]="description"></app-print-error>
+              </div>
+            </div>
+
+
+            <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+              <button #myinputLast (keydown.Tab)="onKey($event)" type="submit" class="btn btn-success">Đặt hàng</button>
+              <div style="width: 10px;"></div>
+            </div>
+
+
+            <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+
+            </div>
+          </form>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="row mt-4">
+            <div class="col"><b>Tổng số lượng sản phẩm</b></div>
+            <div class="col text-end"><b>{{totalItem}}</b></div>
+          </div>
+          <div class="row mt-2">
+            <div class="col"><b>Phí vận chuyển</b></div>
+            <div class="col text-end"><b>{{0 |currency:'VND'}}</b></div>
+          </div>
+          <div class="row mt-2">
+            <div class="col"><b>Tổng tiền:</b></div>
+            <div class="col text-end"><b>{{amount|currency:'VND'}}</b></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="container">
+
+  <h1>Angular Google Map Get Current Location Example - ItSolutionStuff.com</h1>
+
+  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+    <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+    ></agm-marker>
+  </agm-map>
+
+  <h5>Address: {{address1}}</h5>
+  <div>Latitude: {{latitude}}</div>
+  <div>Longitude: {{longitude}}</div>
+
+</div>
