@@ -1,0 +1,112 @@
+
+<div class="container"><div class="card">
+
+  <!-- <div class="row p-3">
+      <div class="col-md-9">
+        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+          <div class="input-group">
+            <div class="btn-group">
+              <input #myInput class="form-control" type="text" placeholder="Search by name product" aria-label="Search for..." aria-describedby="btnNavbarSearch">
+              <i id="searchclear" class="fas fa-times"></i>
+            </div>
+
+              <button class=" btn border border-dark" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+          </div>
+      </div>
+
+      </div>
+
+    </div>   -->
+
+  <div class="card-body">
+
+    <table class="table table-striped mt-5">
+      <thead class="bg-secondary bg-gradient fs-6" >
+      <tr>
+        <th scope="col" style="width: 6%">Mã Đơn hàng </th>
+        <th scope="col" style="width: 14%">Tên người nhận hàng</th>
+        <th scope="col" style="width: 10%">Tổng tiền</th>
+        <th scope="col" style="width: 22%" >Địa chỉ</th>
+        <th class="text-center" scope="col" style="width: 10%">Số điện thoại</th>
+        <th scope="col" style="width: 10%">Ngày mua</th>
+        <th class="text-center" style="width: 10%">Trạng Thái</th>
+        <th class="text-center" style="width: 8%">Hành động</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let item of orders ; index as i">
+        <td class="align-middle"><b>{{item.id}}</b></td>
+        <td class="align-middle" >{{item.name}}</td>
+        <td class="align-middle" >{{item.amount |currency:'VND' }}</td>
+        <td class="align-middle" >{{item.address |uppercase}}</td>
+        <td class="align-middle" >{{item.phone}}</td>
+        <td class="align-middle" >{{item.dateOrdered |date:'dd-MM-yyyy'}}</td>
+        <td class="align-middle" > {{item.status==0?"Đã huỷ":item.status==1?"Chờ xác nhận":item.status==2?"Đang giao hàng":"Đã giao"}}</td>
+        <td>
+
+          <div class="d-flex d-flex align-items-center justify-content-center">
+
+            <div style="width: 10px;"></div>
+            <app-order-action  (updateFinish)="finish()" [orderId]="item.id"></app-order-action>
+          </div>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <!-- <div *ngIf="productCategory?.length == 0" class="alert alert-warning text-center" role="alert">
+       <b>Không có dữ liệu</b>
+    </div> -->
+  </div>
+
+  <div *ngIf="productCategory?.length != 0" class="footer-pagination p-2">
+
+    <div class="row">
+
+      <div class="col-md-6">
+
+        Displaying {{ (thePageNumber - 1) * thePageSize + 1 }} - {{ itemPerPage }} of {{ theTotalElements }}
+
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-9" style="padding-left: 30%;">
+            <ngb-pagination [(page)] = "thePageNumber"
+                            [pageSize] = "thePageSize"
+                            [collectionSize] = "theTotalElements"
+
+                            [boundaryLinks]="true"
+                            [maxSize]="3"
+                            [rotate]="true"
+            >
+
+            </ngb-pagination>
+          </div>
+
+          <div class="col-md-3 mt-2" style="text-align: right;">
+                          <span class="mr-2">
+                              Page Size
+                          </span>
+
+            <!-- <select (change) = "updatePageSize($event.target.value)">
+                <option >5</option>
+                <option selected = "true">10</option>
+                <option >20</option>
+                <option >50</option>
+            </select> -->
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+</div>
+

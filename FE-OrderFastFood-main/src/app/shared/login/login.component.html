@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+      <div class="card-header"><h3 class="text-center font-weight-light my-4" style="font-size: 30px">Đăng nhập</h3></div>
+      <div class="card-body">
+        <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-floating mb-3">
+            <input class="form-control" type="text" placeholder="User Name" id="username" name="username" [(ngModel)]="form.username" required #username="ngModel"/>
+            <label for="username">Username</label>
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && username.invalid">
+              Username is required!
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="inputPassword" type="password" name="password"
+                   placeholder="Password" [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
+            <label for="inputPassword">Password</label>
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && password.invalid">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+          <div class="remember">
+            <input class="form-check-input me-1" type="checkbox" name="remember" id="remember">Remember me
+            <a routerLink="/forget-password" style="color: #66FFFF; text-decoration:none; margin-left: 300px; ">Forget password</a>
+          </div>
+          <div class="form-group text-center ">
+            <button class="btn " style="background: #66FFFF; width: 470px; margin-top: 20px">Login</button>
+          </div>
+
+          <div class="form-group text-center " style="margin-top: 20px">
+            <a href="{{googleURL}}" class="btn btn-secondary btn-block" style="width: 470px; background: #3399FF"><i class="fa-brands fa-google-plus-g" style="font-size: 20px"></i>
+              Continue login with google</a>
+          </div>
+
+          <div class="form-group text-center " style="margin-top: 20px">
+            <a href="{{facebookURL}}" class="btn btn-secondary btn-block" style="width: 470px; background: #3366CC"><i class="fa-brands fa-facebook" style="font-size: 20px"></i>
+              Continue login with facebook</a>
+          </div>
+
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+              Login failed: {{ errorMessage }}
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center py-3">
+        <div class="small"><a routerLink="/register">Need an account? Sign up!</a></div>
+      </div>
+    </div>
+  </div>
+</div>

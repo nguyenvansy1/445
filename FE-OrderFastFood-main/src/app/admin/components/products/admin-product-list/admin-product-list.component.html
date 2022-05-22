@@ -1,0 +1,135 @@
+<div class="card">
+
+  <div class="row mt-2 p-3">
+
+    <div class="col-md-6"></div>
+
+    <div class="col-md-6 text-end"><button routerLink="create" type="button" class="btn btn-success fs-5"><b>Thêm mới sản phẩm  </b> <i class="fas fa-plus-circle"></i></button></div>
+
+  </div>
+
+  <div class="row p-3">
+    <div class="col-md-8">
+      <div class="d-none d-md-flex form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <div class="btn-group" >
+            <input #myInput class="form-control" id="search" [(ngModel)]="keywordForSearch" (keyup)=(doSearch(myInput.value)) type="text" placeholder="Tìm theo tên" aria-label="Search for..." aria-describedby="btnNavbarSearch">
+            <i style="align-items: center" (click) = "clearSearchKeyword()" id="searchclear" class="fas fa-times"></i>
+          </div>
+
+          <button class=" btn border border-dark" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-3 p-0">
+      <div class="row d-flex p-0">
+
+        <div class="col-md-2 text-start mt-2 p-0">
+          <h3 class="fw-bold m-0 r-1"> Hiển thị &nbsp;</h3>
+        </div>
+
+        <div class="col-md-7 p-0 ">
+          <div class="select-border p-0">
+            <select class="form-select form-select-md p-2" (change) = "setValueForFilter($event.target.value)" >
+              <option [ngValue] = "'Default'" value=0 > Tất cả </option>
+              <option *ngFor="let tempProductCategory of productCategory" value={{tempProductCategory.id}} [ngValue] = "tempProductCategory.id" > {{ tempProductCategory.categoryName}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-body">
+
+    <table class="table table-striped">
+      <thead class="bg-secondary bg-gradient fs-7" >
+      <tr style="width: inherit">
+<!--        <th scope="col" style="width: 2%">Id </th>-->
+        <th scope="col" style="width: 14%">Mã sản phẩm</th>
+        <th scope="col" style="width: 16%">Tên</th>
+        <th scope="col" style="width: 6%">Giá</th>
+        <th class="text-center" scope="col" style="width: 10%">Số lượng</th>
+        <th scope="col" style="width: 42%">Mổ tả</th>
+        <th class="text-center" scope="col">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let tempProduct of products ; index as i">
+        <td class="align-middle"><b>{{tempProduct.id}}</b></td>
+        <td class="align-middle"><div ngbTooltip="{{tempProduct.name}}" tooltip-append-to-body="true">{{ (tempProduct.name.length>25)? (tempProduct.name | slice:0:25)+'...':(tempProduct.name) }}</div></td>
+        <td class="align-middle text-end">{{tempProduct.unitPrice | currency: "VND"}}</td>
+        <td class="align-middle text-end">{{tempProduct.unitInStock}}</td>
+        <!-- <td ngbTooltip="{{tempProduct.description}}" tooltip-append-to-body="true">{{tempProduct.description | slice:0:100}}</td> -->
+
+        <td class="align-middle"><div ngbTooltip="{{tempProduct.description}}" tooltip-append-to-body="true">{{ (tempProduct.description.length>110)? (tempProduct.description | slice:0:110)+'...':(tempProduct.description) }}</div></td>
+
+        <!-- <ng-template  #tipContent>{{tempProduct.description}}</ng-template> -->
+        <td>
+
+          <div class="d-flex d-flex align-items-center justify-content-end" >
+
+            <button ngbTooltip="Xem chi tiết" tooltip-append-to-body="true" (click) = "detail(tempProduct.id)" class="btn mr-5 btn-warning "><i class="fas fa-info-circle"></i></button>
+
+            <div style="width: 10px;"></div>
+
+            <button ngbTooltip="Cập nhật" tooltip-append-to-body="true" (click) = "update(tempProduct.id)"  class="btn mr-5 btn-primary"><i class="fas fa-pen"></i> </button>
+
+            <div style="width: 10px;"></div>
+
+            <button ngbTooltip="Xoá" tooltip-append-to-body="true"  (click)="Delete(tempProduct.id)" class="btn btn-danger "><i class="far fa-trash-alt"></i></button>
+
+
+          </div>
+
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div *ngIf="products?.length == 0" class="alert alert-warning text-center" role="alert">
+      <b>Không tìm thấy sản phẩm</b>
+    </div>
+  </div>
+
+  <div *ngIf="products?.length != 0" class="footer-pagination p-2">
+
+    <div class="row">
+
+      <div class="col-md-7 pl-2 mt-2">
+              <span class="ml-2">
+                &nbsp;&nbsp; Hiển thị
+              </span>
+        <select (change) = "updatePageSize($event.target.value)">
+          <option >5</option>
+          <option >10</option>
+          <option selected = "true">20</option>
+          <option >50</option>
+        </select>
+      </div>
+
+      <div class="col-md-5 ml-5">
+        <div class="row ">
+          <div class="col-md-5 mt-2" style="text-align: right; color: black;">
+            Hiển thị {{ (thePageNumber - 1) * thePageSize + 1 }} - {{ itemPerPage }} của {{ theTotalElements }}
+          </div>
+          <div class="col-md-7">
+            <ngb-pagination [(page)] = "thePageNumber"
+                            [pageSize] = "thePageSize"
+                            [collectionSize] = "theTotalElements"
+                            (pageChange) = "listProducts()"
+                            [boundaryLinks]="true"
+                            [maxSize]="3"
+                            [rotate]="true"
+            >
+
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

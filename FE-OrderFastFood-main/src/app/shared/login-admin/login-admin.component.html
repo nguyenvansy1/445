@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+      <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+      <div class="card-body">
+        <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-floating mb-3">
+            <input class="form-control" type="text" placeholder="User Name" id="username" name="username" [(ngModel)]="form.username" required #username="ngModel"/>
+            <label for="username">Username</label>
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && username.invalid">
+              Username is required!
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="inputPassword" type="password" name="password" placeholder="Password" [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
+            <label for="inputPassword">Password</label>
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && password.invalid">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-center ">
+            <button class="btn btn-primary btn-block">Login</button>
+          </div>
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+              Login failed: {{ errorMessage }}
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center py-3">
+<!--        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>-->
+        <div class="small"><a routerLink="/register">Need an account? Sign up!</a></div>
+      </div>
+    </div>
+  </div>
+</div>
